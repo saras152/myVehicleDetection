@@ -95,4 +95,4 @@ This project had taken the most time for me, simply because I was trying to run 
 
 I then moved the pipeline execution to AWS instance and increased the feature list, 3 channel hog features, and color histogram, spacial bins. It was not difficult to get it working at this point of time. I had to tune some hyperparameters to get it up and working. In most cases, I used the code from the class exercises, and also the parameters from the class exercises. This is mainly because I find that the values are working. Although I experiemnted to use different set of values, I finally came back to the working set of values. 
 
-Overall, this project has been an exhausting exercise, more intensive than the behavioural cloning project, and taught me a valuable lesson that more data results in better model.  
+Overall, this project has been an exhausting exercise, more intensive than the behavioural cloning project, and taught me a valuable lesson that more data results in better model. But at the same time, this pipeline runs very slowly. This is not really optimized for real-time runs.
