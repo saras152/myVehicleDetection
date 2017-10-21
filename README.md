@@ -58,10 +58,10 @@ I trained a linear SVM using all the three feature sets of each image, i.e. Hog 
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-The function find_cars in code cell number 16 includes the sliding window search algorithm. This code was taken from the class assignment. This code steps through the image in both horizontal and vertical directions. 
+The function find_cars in code cell number 16 includes the sliding window search algorithm. This code was taken from the class assignment. This code steps through the image in both horizontal and vertical directions. The image scale selected (1.5) is sufficient for image recognition. 
 
 
-####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
+#### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
 Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
 
@@ -71,34 +71,28 @@ Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spat
 
 ### Video Implementation
 
-####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
+#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 
 Here's a [link to my video result](./project_video_out.mp4)
 
 
-####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
+#### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
+I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual local peaks in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
 
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
+The choice of threshold for the heatmap decided the false positives. I chose a threshold of 2 for the heatmaps for reasonable accuracy of detection. But this also means that in some of the frames the car does not get detected, simply because it was not crossing the threshold detection from multiple scales of the image detection algorithm.
 
-### Here are six frames and their corresponding heatmaps:
-
-![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
-![alt text][image6]
-
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
-
+However, the choice of parameters resulted in a reasonably working pipeline.
 
 
 ---
 
-###Discussion
+### Discussion
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+This project had taken the most time for me, simply because I was trying to run the models with lowest possible data, i.e. with only one channel or hog features, and notting else. My experiments with every possible color space had some errors on the final video output. I was trying to run the pipeline from my PC. 
 
+I then moved the pipeline execution to AWS instance and increased the feature list, 3 channel hog features, and color histogram, spacial bins. It was not difficult to get it working at this point of time. I had to tune some hyperparameters to get it up and working. In most cases, I used the code from the class exercises, and also the parameters from the class exercises. This is mainly because I find that the values are working. Although I experiemnted to use different set of values, I finally came back to the working set of values. 
+
+Overall, this project has been an exhausting exercise, more intensive than the behavioural cloning project, and taught me a valuable lesson that more data results in better model.  
